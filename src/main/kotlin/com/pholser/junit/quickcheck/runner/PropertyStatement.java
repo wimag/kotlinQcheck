@@ -97,16 +97,16 @@ class PropertyStatement extends Statement {
         }
     }
 
-    private void verifyProperty(
-        List<PropertyParameterGenerationContext> params,
-        ShrinkControl shrinkControl)
+    protected void verifyProperty(
+            List<PropertyParameterGenerationContext> params,
+            ShrinkControl shrinkControl)
         throws Throwable {
 
         Object[] args = argumentsFor(params);
         property(params, args, shrinkControl).verify();
     }
 
-    private PropertyVerifier property(
+    protected PropertyVerifier property(
         List<PropertyParameterGenerationContext> params,
         Object[] args,
         ShrinkControl shrinkControl)
@@ -187,7 +187,7 @@ class PropertyStatement extends Statement {
         return exec.getDeclaringClass().getName() + '.' + exec.getName();
     }
 
-    private Object[] argumentsFor(List<PropertyParameterGenerationContext> params) {
+    protected Object[] argumentsFor(List<PropertyParameterGenerationContext> params) {
         return params.stream()
             .map(PropertyParameterGenerationContext::generate)
             .collect(toList())

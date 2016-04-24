@@ -1,6 +1,7 @@
 package Runners;
 
 import Utils.MethodNameHelper;
+import Utils.QuickCheckContext;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Assert;
@@ -18,7 +19,11 @@ import java.util.ArrayList;
 @RunWith(QuickCheckRunner.class)
 public class QuickCheckBuilder {
 
-    public static final ArrayList<Method> tests = new ArrayList<>();
+    private static final ArrayList<QuickCheckContext> tests = new ArrayList<>();
+
+    public static void addTest(QuickCheckContext context){
+        tests.add(context);
+    }
 
     private static class Crypto2 {
         byte[] encrypt(byte[] plaintext){
@@ -36,7 +41,6 @@ public class QuickCheckBuilder {
     public void decryptReversesEncrypt(String plaintext) {
 
         Crypto2 crypto = new Crypto2();
-        System.out.println("asd");
         byte[] ciphertext = crypto.encrypt(plaintext.getBytes());
         Assert.assertEquals(
                 plaintext,

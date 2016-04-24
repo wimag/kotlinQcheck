@@ -1,21 +1,24 @@
 package Runners;
 
+import Utils.QuickCheckContext;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import com.pholser.junit.quickcheck.runner.QuickCheckStatement;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Mark on 07.04.2016.
  */
 public class QuickCheckRunner extends JUnitQuickcheck {
 
-    private List<FrameworkMethod> qtests = new ArrayList<>();
+    private List<QTestEntry> qtests = new ArrayList<>();
     /**
      * Invoked reflectively by JUnit.
      *
@@ -25,9 +28,11 @@ public class QuickCheckRunner extends JUnitQuickcheck {
     public QuickCheckRunner(Class<?> clazz) throws InitializationError {
         super(clazz);
         try {
-            System.out.println(clazz.getDeclaredField("tests").get(null));
-            for(Method method: (List<Method>)clazz.getDeclaredField("tests").get(null)){
-                qtests.add(new FrameworkMethod(method));
+            Field tests = clazz.getDeclaredField("tests");
+            tests.setAccessible(true);
+            System.out.println(tests.get(null));
+            for(QuickCheckContext context: (List<QuickCheckContext>)tests.get(null)){
+                qtests.add(new QTestEntry(new FrameworkMethod(context.getVerifyMethod()), context));
             }
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
@@ -43,7 +48,7 @@ public class QuickCheckRunner extends JUnitQuickcheck {
     protected List<FrameworkMethod> computeTestMethods() {
          List<FrameworkMethod> tests = super.computeTestMethods();
         if(qtests != null){
-            tests.addAll(qtests);
+            tests.addAll(qtests.stream().map(QTestEntry::getMethod).collect(Collectors.toList()));
         }
         return tests;
 
@@ -51,11 +56,31 @@ public class QuickCheckRunner extends JUnitQuickcheck {
 
     @Override
     public Statement methodBlock(FrameworkMethod method) {
-        if(qtests.contains(method)){
-            return new QuickCheckStatement(method, getTestClass(), getRepo(), getDistro(), getSeedLog());
+        for(QTestEntry entry: qtests){
+            if(entry.getMethod().equals(method)){
+                return new QuickCheckStatement(method, getTestClass(), getRepo(), getDistro(), getSeedLog(), entry.context);
+            }
         }
         return super.methodBlock(method);
     }
 
+    private static class QTestEntry{
+        private final FrameworkMethod method;
+        private final QuickCheckContext context;
+
+        public QTestEntry(FrameworkMethod method, QuickCheckContext context) {
+            this.method = method;
+            this.context = context;
+        }
+
+        public FrameworkMethod getMethod() {
+            return method;
+        }
+
+        public QuickCheckContext getContext() {
+            return context;
+        }
+
+    }
 
 }

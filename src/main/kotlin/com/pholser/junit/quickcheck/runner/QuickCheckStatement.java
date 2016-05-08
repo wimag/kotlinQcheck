@@ -1,7 +1,6 @@
 package com.pholser.junit.quickcheck.runner;
 
-import Utils.QuickCheckContext;
-import com.pholser.junit.quickcheck.Property;
+import context.Context;
 import com.pholser.junit.quickcheck.internal.GeometricDistribution;
 import com.pholser.junit.quickcheck.internal.ShrinkControl;
 import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
@@ -26,9 +25,9 @@ import static org.junit.Assert.fail;
  */
 
 public class QuickCheckStatement extends PropertyStatement {
-    private final QuickCheckContext context;
+    private final Context context;
     public QuickCheckStatement(FrameworkMethod method, TestClass testClass, GeneratorRepository repo, GeometricDistribution distro, Logger seedLog,
-                               QuickCheckContext context) {
+                               Context context) {
         super(method, testClass, repo, distro, seedLog);
         this.context = context;
     }
@@ -48,14 +47,12 @@ public class QuickCheckStatement extends PropertyStatement {
 
     @Override
     public void evaluate() throws Throwable {
-        System.out.println("wololo");
-        Property marker = method.getAnnotation(Property.class);
-        int trials = marker.trials();
+        int trials = context.trials();
         ShrinkControl shrinkControl = new ShrinkControl(
-                marker.shrink(),
-                marker.maxShrinks(),
-                marker.maxShrinkDepth(),
-                marker.maxShrinkTime());
+                context.shrink(),
+                context.maxShrinks(),
+                context.maxShrinkDepth(),
+                context.maxShrinkTime());
 
         List<PropertyParameterGenerationContext> params = parameters(trials);
 

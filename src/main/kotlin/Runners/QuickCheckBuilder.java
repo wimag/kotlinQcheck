@@ -1,15 +1,11 @@
 package Runners;
 
-import Utils.MethodNameHelper;
-import Utils.QuickCheckContext;
+import context.Context;
 import com.pholser.junit.quickcheck.Property;
-import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
-import org.junit.runners.model.InitializationError;
 
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -19,9 +15,9 @@ import java.util.ArrayList;
 @RunWith(QuickCheckRunner.class)
 public class QuickCheckBuilder {
 
-    private static final ArrayList<QuickCheckContext> tests = new ArrayList<>();
+    private static final ArrayList<Context> tests = new ArrayList<>();
 
-    public static void addTest(QuickCheckContext context){
+    public static void addTest(Context context){
         tests.add(context);
     }
 

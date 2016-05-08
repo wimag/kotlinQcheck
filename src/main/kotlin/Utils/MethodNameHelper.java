@@ -17,11 +17,13 @@ public class MethodNameHelper {
         try {
             Class<?> act = Class.forName(fileName);
             //TODO - call other, then string
-            return act.getMethod(name, params);
+            for(Method method: act.getDeclaredMethods()){
+                if(method.getName().equals(name)){
+                    return method;
+                }
+            }
         } catch (ClassNotFoundException e) {
             System.out.println("Can not get caller class");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
         }
         return null;
     }

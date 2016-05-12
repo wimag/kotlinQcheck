@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import Runners.QuickCheckBuilder;
-import ognl.OgnlException;
+import generators.QGenerator;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -22,12 +22,23 @@ public class QtestRunner {
         }
         String fileName = stackTraceElements[2].getClassName();
         try {
+
             Class<?> act = Class.forName(fileName);
+            processQGen(act);
             processAnnotations(act);
+            runTests();
         } catch (ClassNotFoundException e) {
             System.out.println("Can not get caller class");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void processQGen(Class<?> act){
+        for(Method method: getMethods(act)){
+            if(method.isAnnotationPresent(QGen.class)){
+                QuickCheckBuilder.addGen(new QGenerator(method));
+            }
         }
     }
 
@@ -47,6 +58,9 @@ public class QtestRunner {
                 }
             }
         }
+    }
+
+    private static void runTests(){
         Result res = JUnitCore.runClasses(QuickCheckBuilder.class);
         System.out.printf("%d Tests Evaluated \n", res.getRunCount());
         if(res.getFailureCount() == 0){

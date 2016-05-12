@@ -1,5 +1,6 @@
 package Runners;
 
+import com.pholser.junit.quickcheck.generator.Generator;
 import context.Context;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import com.pholser.junit.quickcheck.runner.QuickCheckStatement;
@@ -26,16 +27,19 @@ public class QuickCheckRunner extends JUnitQuickcheck {
      */
     public QuickCheckRunner(Class<?> clazz) throws InitializationError {
         super(clazz);
-        try {
-            Field tests = clazz.getDeclaredField("tests");
-            tests.setAccessible(true);
-            System.out.println(tests.get(null));
-            for(Context context : (List<Context>)tests.get(null)){
+        Iterable<Generator> gens = getGenerators(clazz);
+        if (gens != null) {
+            for(Generator<?> gen: gens){
+                getRepo().register(gen);
+            }
+        }
+        if(getTests(clazz) != null){
+            for(Context context : getTests(clazz)){
                 qtests.add(new QTestEntry(new FrameworkMethod(context.getVerifyMethod()), context));
             }
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
         }
+
+
     }
 
     @Override
@@ -61,6 +65,29 @@ public class QuickCheckRunner extends JUnitQuickcheck {
             }
         }
         return super.methodBlock(method);
+    }
+
+
+    private List<Context> getTests(Class<?> clazz){
+        try {
+            Field tests = clazz.getDeclaredField("tests");
+            tests.setAccessible(true);
+            return (List<Context>)tests.get(null);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<Generator> getGenerators(Class<?> clazz){
+        try {
+            Field tests = clazz.getDeclaredField("gens");
+            tests.setAccessible(true);
+            return (List<Generator>)tests.get(null);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private static class QTestEntry{

@@ -1,5 +1,6 @@
 package Runners;
 
+import com.pholser.junit.quickcheck.generator.Generator;
 import context.Context;
 import com.pholser.junit.quickcheck.Property;
 import org.junit.Assert;
@@ -16,6 +17,12 @@ import java.util.ArrayList;
 public class QuickCheckBuilder {
 
     private static final ArrayList<Context> tests = new ArrayList<>();
+
+    private static final ArrayList<Generator> gens = new ArrayList<>();
+
+    public static void addGen(Generator generator){
+        gens.add(generator);
+    }
 
     public static void addTest(Context context){
         tests.add(context);

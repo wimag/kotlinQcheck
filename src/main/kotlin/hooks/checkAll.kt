@@ -1,35 +1,43 @@
 package hooks
 
 import Runners.QuickCheckBuilder
-import Runners.QuickCheckRunner
+import context.Context
+import context.FunctionContext
 import Utils.MethodNameHelper
-import Utils.QuickCheckContext
-import com.oracle.webservices.internal.api.message.PropertySet
+import context.LambdaContext
 import com.pholser.junit.quickcheck.Property
-import org.junit.Assert
-import org.junit.runner.RunWith
-import org.junit.runner.JUnitCore
-import java.lang.reflect.Method
-import kotlin.reflect.jvm.kotlinFunction
+import kotlin.reflect.KFunction
+import kotlin.reflect.jvm.javaMethod
+import kotlin.reflect.jvm.reflect
+
 
 /**
  * Created by Mark on 04.04.2016.
  */
 
-@Property fun <T : Function<*>?> t2(context: QuickCheckContext<T>, params: String) {
+@Property fun <T : Function<*>?> checkAllProxy(context: Context<T>, params : Any) {
     org.junit.Assert.assertTrue(context.testMethod(context.testFunction, params) as Boolean)
 }
 
 
-//TODO pass function type
-fun t4(s: String) : String {
-    return s
+//TODO - recieve func here
+
+fun checkAll(func: KFunction<*>?, trials: Int = 100, shrink: Boolean = true, shrinks : Int = 100, maxShrinkDepth : Int = 20,
+             maxShrinkTime : Int = 60000) {
+    //TODO SAM construction
+    val lambda = { x: String -> x.length < 10 }
+    lambda.reflect()!!.parameters
+    var checker = MethodNameHelper.getMethod("checkAllProxy", Context::class.java)
+    QuickCheckBuilder.addTest(FunctionContext(checker, func!!.javaMethod, trials, shrink, shrinks, maxShrinkDepth, maxShrinkTime))
 }
 
-fun checkAll() {
-    //TODO SAM construction
-    QuickCheckBuilder.addTest(QuickCheckContext((MethodNameHelper.getMethod("t2", QuickCheckContext::class.java, String::class.java)), { x: String -> x.length < 10 }))
 
+fun checkAll(func: Function<*>?, trials: Int = 100, shrink: Boolean = true, shrinks : Int = 100, maxShrinkDepth : Int = 20,
+                    maxShrinkTime : Int = 60000) {
+    //TODO SAM construction
+    val lambda = { x: String -> x.length < 10 }
+    var checker = MethodNameHelper.getMethod("checkAllProxy", Context::class.java)
+    QuickCheckBuilder.addTest(LambdaContext(checker, func, trials, shrink, shrinks, maxShrinkDepth, maxShrinkTime))
 }
 
 

@@ -42,6 +42,7 @@ public class LambdaContext<T> extends Context {
                 Object t = new Object();
                 //TODO - do something better
                 if(method.getName().equals("invoke") && Modifier.isFinal(method.getModifiers())){
+                    method.setAccessible(true);
                     return method;
                 }
             }

@@ -238,7 +238,7 @@ public class GeneratorRepository {
 
         List<Generator<?>> copies = new ArrayList<>();
         for (Generator<?> each : matches)
-            copies.add(copyOf(each));
+            copies.add(each.getCopy());
         return copies;
     }
 
@@ -246,9 +246,6 @@ public class GeneratorRepository {
         return generators.get(parameter.getRawClass()) != null;
     }
 
-    private static Generator<?> copyOf(Generator<?> generator) {
-        return instantiate(generator.getClass());
-    }
 
     public static org.javaruntype.type.Type<?> token(Type type) {
         return Types.forJavaLangReflectType(type);

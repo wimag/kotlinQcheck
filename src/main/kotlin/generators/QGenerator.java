@@ -31,4 +31,9 @@ public class QGenerator extends Generator{
         }
         return null;
     }
+
+    @Override
+    public Generator<?> getCopy() {
+        return new QGenerator(method);
+    }
 }

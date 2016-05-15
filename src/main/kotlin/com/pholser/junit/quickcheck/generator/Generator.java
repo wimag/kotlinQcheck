@@ -79,6 +79,15 @@ public abstract class Generator<T> implements Shrink<T> {
     }
 
     /**
+     * For some generators it might be hard to create a copy with
+     * Class.newInstance(), so they might want to override this method
+     * @return copy of this generator
+     */
+    public Generator<?> getCopy(){
+        return instantiate(getClass());
+    }
+
+    /**
      * @return class tokens for the types of property parameters this generator
      * is applicable to
      */

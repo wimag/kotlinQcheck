@@ -11,6 +11,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface QGen {
+    String name() default "N/A";
+
     String createdBy() default "Wimag";
 
     String lastModified() default "05/04/2016";

@@ -13,9 +13,11 @@ import java.lang.reflect.Method;
  */
 public class QGenerator extends Generator{
     private final Method method;
-    public QGenerator(Method method) {
+    private final String name;
+    public QGenerator(Method method, String name) {
         super(method.getReturnType());
         this.method = method;
+        this.name = name;
     }
 
     @Override
@@ -34,6 +36,11 @@ public class QGenerator extends Generator{
 
     @Override
     public Generator<?> getCopy() {
-        return new QGenerator(method);
+        return new QGenerator(method, name);
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

@@ -1,11 +1,14 @@
 package Utils;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.reflect.Method;
 
 /**
  * Created by Mark on 08.04.2016.
  */
 public class MethodNameHelper {
+    @Nullable
     public static Method getMethod(String name, Class<?>... params) {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         //caller always is third on stack (getStachTrace() -> run() -> caller

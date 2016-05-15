@@ -88,6 +88,15 @@ public abstract class Generator<T> implements Shrink<T> {
     }
 
     /**
+     * Naming generators allows to shorten code. Also caching names
+     * of generators can improve performance.
+     * @return name of this generator
+     */
+    public String getName(){
+        return getClass().getName();
+    }
+
+    /**
      * @return class tokens for the types of property parameters this generator
      * is applicable to
      */

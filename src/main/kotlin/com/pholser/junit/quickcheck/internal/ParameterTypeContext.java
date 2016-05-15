@@ -25,6 +25,7 @@
 
 package com.pholser.junit.quickcheck.internal;
 
+import java.io.InvalidClassException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedArrayType;
 import java.lang.reflect.AnnotatedElement;
@@ -44,6 +45,7 @@ import java.util.stream.Collectors;
 
 import com.pholser.junit.quickcheck.From;
 import com.pholser.junit.quickcheck.generator.Generator;
+import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 import org.javaruntype.type.ExtendsTypeParameter;
 import org.javaruntype.type.StandardTypeParameter;
@@ -69,6 +71,7 @@ public class ParameterTypeContext {
     private final org.javaruntype.type.Type<?> token;
     private final List<Weighted<Generator<?>>> explicits = new ArrayList<>();
     private final Map<String, org.javaruntype.type.Type<?>> typeVariables;
+    private List<String> unresolved = new ArrayList<>();
 
     private AnnotatedElement annotatedElement;
     private boolean allowMixedTypes;
@@ -142,11 +145,29 @@ public class ParameterTypeContext {
         return allowMixedTypes;
     }
 
+    public void resolve(GeneratorRepository repo){
+        List<String> failures = new ArrayList<>();
+        for(String name: unresolved) {
+            Generator<?> generator = repo.generatorForName(name);
+            if (generator != null) {
+                //TODO pass frequency
+                explicits.add(new Weighted<>(generator, 1));
+            }else{
+                failures.add(name);
+            }
+        }
+        unresolved = failures;
+    }
+
     private void addGenerators(List<From> generators) {
         for (From each : generators) {
-            Generator<?> generator = makeGenerator(each.value());
-            ensureCorrectType(generator);
-            explicits.add(new Weighted<>(generator, each.frequency()));
+            if(each.name().equals(From.NAME_HOLDER)){
+                Generator<?> generator = makeGenerator(each.value());
+                ensureCorrectType(generator);
+                explicits.add(new Weighted<>(generator, each.frequency()));
+            }else{
+                unresolved.add(each.name());
+            }
         }
     }
 
@@ -220,7 +241,10 @@ public class ParameterTypeContext {
         return annotatedElement instanceof Parameter || annotatedElement instanceof Field;
     }
 
-    public List<Weighted<Generator<?>>> explicitGenerators() {
+    public List<Weighted<Generator<?>>> explicitGenerators() throws InvalidClassException {
+        if(!unresolved.isEmpty()){
+            throw new InvalidClassException("Can not find generators for " + unresolved.get(0));
+        }
         return unmodifiableList(explicits);
     }
 

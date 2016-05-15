@@ -37,7 +37,11 @@ public class QtestRunner {
     private static void processQGen(Class<?> act){
         for(Method method: getMethods(act)){
             if(method.isAnnotationPresent(QGen.class)){
-                QuickCheckBuilder.addGen(new QGenerator(method));
+                String name = method.getAnnotation(QGen.class).name();
+                if(name.equals("N/A")){
+                    name = method.getName();
+                }
+                QuickCheckBuilder.addGen(new QGenerator(method, name));
             }
         }
     }

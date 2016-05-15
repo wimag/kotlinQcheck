@@ -25,6 +25,7 @@
 
 package com.pholser.junit.quickcheck.internal.generator;
 
+import java.io.InvalidClassException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -111,9 +112,25 @@ public class GeneratorRepository {
         return generator;
     }
 
+    public Generator<?> generatorForName(String name){
+        for(Set<Generator<?>> set: generators.values()){
+            for(Generator<?> gen: set){
+                if(gen.getName().equals(name)){
+                    return gen;
+                }
+            }
+        }
+        return null;
+    }
+
     public Generator<?> generatorFor(ParameterTypeContext parameter) {
-        if (!parameter.explicitGenerators().isEmpty())
-            return composeWeighted(parameter, parameter.explicitGenerators());
+        try {
+            if (!parameter.explicitGenerators().isEmpty())
+                return composeWeighted(parameter, parameter.explicitGenerators());
+        } catch (InvalidClassException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
 
         if (parameter.isArray())
             return generatorForArrayType(parameter);

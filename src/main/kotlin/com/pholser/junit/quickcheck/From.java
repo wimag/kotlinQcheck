@@ -54,10 +54,13 @@ public @interface From {
     /**
      * @return the generator to be used for the annotated property parameter
      */
-    Class<? extends Generator> value();
+    Class<? extends Generator> value() default Generator.class;
 
+    String name() default "N/A";
     /**
      * @return a weight to influence how often the generator is chosen
      */
     int frequency() default 1;
+
+    String NAME_HOLDER = "N/A";
 }

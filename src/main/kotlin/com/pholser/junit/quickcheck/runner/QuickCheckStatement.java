@@ -1,5 +1,6 @@
 package com.pholser.junit.quickcheck.runner;
 
+import com.pholser.junit.quickcheck.internal.PropertyParameterContext;
 import context.Context;
 import com.pholser.junit.quickcheck.internal.GeometricDistribution;
 import com.pholser.junit.quickcheck.internal.ShrinkControl;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
@@ -71,9 +73,12 @@ public class QuickCheckStatement extends PropertyStatement {
                 .method(context.getTestMethod())
                 .genericsMap();
 
-        return Arrays.stream(context.getTestMethod().getParameters())
-                .map(p -> parameterContextFor(p, trials, typeVariables))
-                .map(p -> new PropertyParameterGenerationContext(
+
+        List<PropertyParameterContext> contexts = Arrays.stream(context.getTestMethod().getParameters())
+                .map(p -> parameterContextFor(p, trials, typeVariables)).collect(Collectors.toList());
+
+        contexts.stream().forEach(p -> p.typeContext().resolve(repo));
+        return contexts.stream().map(p -> new PropertyParameterGenerationContext(
                         p,
                         repo,
                         distro,

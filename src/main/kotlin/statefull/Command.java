@@ -3,6 +3,10 @@ package statefull;
 
 import Utils.FunctionHelper;
 import kotlin.Function;
+import kotlin.jvm.internal.Lambda;
+import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.Parameter;
 
 /**
  * Created by Mark on 17.05.2016.
@@ -49,11 +53,19 @@ public class Command<S, T, R> {
      *                   command
      * @return new value of state
      */
-    public S applyState(S state, T testObject){
-        if(FunctionHelper.getArity(transformState) == 1){
-            return FunctionHelper.invoke(transformState, state);
+    public S applyState(S state, T testObject, Object... args){
+        Object[] temp;
+        if(transformState instanceof Lambda){
+            temp = new Object[args.length + 1];
+            temp[0] = state;
+
+        }else{
+            temp = new Object[args.length + 2];
+            temp[0] = state;
+            temp[1] = testObject;
         }
-        return FunctionHelper.invoke(transformState, state, testObject);
+        System.arraycopy(args, 0, temp, temp.length - args.length, args.length);
+        return FunctionHelper.invoke(transformState, temp);
     }
 
     /**
@@ -76,7 +88,8 @@ public class Command<S, T, R> {
      * @return - weather the condition was satisfied
      */
     public boolean evalPostCondition(S state, T testObject){
-        return FunctionHelper.invoke(postCondition, state, testObject);
+        Boolean res = FunctionHelper.invoke(postCondition, state, testObject);
+        return (res == null) || res;
     }
 
     /**
@@ -88,6 +101,22 @@ public class Command<S, T, R> {
      * @return - weather the condition was satisfied
      */
     public boolean evalResults(S state, R result){
-        return FunctionHelper.invoke(resultCondition, state, result);
+        Boolean res = FunctionHelper.invoke(resultCondition, state, result);
+        return (res == null) || res;
+    }
+
+    /**
+     * @return - name of this command
+     */
+    public String getName(){
+        return name;
+    }
+
+    /**
+     * @return parameters of command, that is executed on Target
+     */
+    public Parameter[] getParameters(){
+        //TODO - add params to state
+        return FunctionHelper.getMethod(transformTarget).getParameters();
     }
 }

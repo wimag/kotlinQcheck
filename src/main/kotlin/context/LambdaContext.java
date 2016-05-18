@@ -16,8 +16,8 @@ public class LambdaContext<T extends Function> extends Context {
 
     public LambdaContext(Method verifyMethod, T testMethod, int trials,
                            boolean shrink, int shrinks, int maxShrinkDeptth,
-                           int maxShrinkTime) {
-        super(trials, shrinks, maxShrinkDeptth, shrink, maxShrinkTime);
+                           int maxShrinkTime, String name) {
+        super(trials, shrinks, maxShrinkDeptth, shrink, maxShrinkTime, name);
         this.testFunction = testMethod;
         this.verifyMethod = verifyMethod;
     }

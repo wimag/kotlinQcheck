@@ -18,8 +18,8 @@ public class StatefullContext<S, T> extends Context {
 
     public StatefullContext(Method verifyMethod, StateExecutor<S, T> statemachine, int trials,
                             boolean shrink, int shrinks, int maxShrinkDeptth,
-                            int maxShrinkTime) {
-        super(trials, shrinks, maxShrinkDeptth, shrink, maxShrinkTime);
+                            int maxShrinkTime, String name) {
+        super(trials, shrinks, maxShrinkDeptth, shrink, maxShrinkTime, name);
         this.verifyMethod = verifyMethod;
         this.executor = statemachine;
     }
@@ -60,6 +60,7 @@ public class StatefullContext<S, T> extends Context {
     @Override
     public void initializeRepo(GeneratorRepository repo) {
         Generator gen = repo.generatorForName("CommandSequenceGenerator");
+        executor.setRepo(repo);
         if(gen instanceof CommandSequenceGenerator){
             ((CommandSequenceGenerator) gen).configure(executor.sampleLength(), executor.getNumberOfCommands());
         }

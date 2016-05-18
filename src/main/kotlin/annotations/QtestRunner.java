@@ -67,16 +67,12 @@ public class QtestRunner {
 
     private static void runTests(){
         Result res = JUnitCore.runClasses(QuickCheckBuilder.class);
-        System.out.printf("%d Tests Evaluated \n", res.getRunCount());
+        System.out.printf("%d Tests Evaluated \n", res.getRunCount() - 1);
         if(res.getFailureCount() == 0){
             System.out.println("All Tests Passed");
             return;
         }
         System.err.printf("%d Tests Failed \n", res.getFailureCount());
-        for(Failure f: res.getFailures()){
-            System.err.printf("%s failed at \n", f.getTestHeader());
-            System.err.println(f.getException().getMessage());
-        }
     }
 
     private static Method[] getMethods(Class<?> act) {

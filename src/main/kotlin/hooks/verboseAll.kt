@@ -16,21 +16,24 @@ import kotlin.reflect.jvm.javaMethod
 
 @Property fun <T : Function<*>?> verboseAllProxy(context: Context<T>,vararg params : Any) {
     println(params)
-    org.junit.Assert.assertTrue(context.testMethod(context.testFunction, *params) as Boolean)
+    if(!(context.testMethod(context.testFunction, *params) as Boolean)){
+        System.err.println("Test %s failed with params %s".format(context.name, params.joinToString(",")));
+        org.junit.Assert.fail();
+    }
 }
 
 
 fun verboseAll(func: KFunction<*>?, trials: Int = 100, shrink: Boolean = true, shrinks : Int = 100, maxShrinkDepth : Int = 20,
-             maxShrinkTime : Int = 60000) {
+             maxShrinkTime : Int = 60000, name: String = "Unknown") {
     val checker = MethodNameHelper.getMethod("verboseAllProxy")
-    TestStorage.getInstance().addTest(FunctionContext(checker, func!!.javaMethod, trials, shrink, shrinks, maxShrinkDepth, maxShrinkTime))
+    TestStorage.getInstance().addTest(FunctionContext(checker, func!!.javaMethod, trials, shrink, shrinks, maxShrinkDepth, maxShrinkTime, name))
 }
 
 
 fun verboseAll(func: Function<*>?, trials: Int = 100, shrink: Boolean = true, shrinks : Int = 100, maxShrinkDepth : Int = 20,
-                    maxShrinkTime : Int = 60000) {
+                    maxShrinkTime : Int = 60000, name: String = "Unknown") {
     val checker = MethodNameHelper.getMethod("verboseAllProxy")
-    TestStorage.getInstance().addTest(LambdaContext(checker, func, trials, shrink, shrinks, maxShrinkDepth, maxShrinkTime))
+    TestStorage.getInstance().addTest(LambdaContext(checker, func, trials, shrink, shrinks, maxShrinkDepth, maxShrinkTime, name))
 }
 
 

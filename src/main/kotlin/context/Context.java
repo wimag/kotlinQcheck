@@ -14,13 +14,15 @@ public abstract class Context<T> {
     private final int maxDepth;
     private final boolean shrink;
     private final int maxShrinkTime;
+    private final String name;
 
-    public Context(int trials, int shrinks, int maxDepth, boolean shrink, int maxShrinkTime) {
+    public Context(int trials, int shrinks, int maxDepth, boolean shrink, int maxShrinkTime, String name) {
         this.trials = trials;
         this.shrinks = shrinks;
         this.maxDepth = maxDepth;
         this.shrink = shrink;
         this.maxShrinkTime = maxShrinkTime;
+        this.name = name;
     }
 
     public abstract T getTestFunction();
@@ -59,6 +61,7 @@ public abstract class Context<T> {
 
     public void initializeRepo(GeneratorRepository repo){}
 
-
-
+    public String getName() {
+        return name;
+    }
 }

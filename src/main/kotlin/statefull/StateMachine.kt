@@ -44,9 +44,22 @@ class StateMachine<S, T> {
     }
 
     /**
-     * @param command - register command for state machine
+     * adds new command to State Machine.
+     * @param transformState - function to transform state:
+     * takes S and OptArgs as input, where OptArg - parameters
+     * of transform target. Should return <b> new state </b>
+     * @param transformTarget - function to transform target:
+     * takes initial target and OptArgs - optional set of arguments,
+     * May return some value. That value is tested later against
+     * resultCondition
+     * @param precondition - Function, predicate that verifies, that
+     * this command could be executed(based on current state)
+     * @param postcondition - Function, predicate that verifies, that
+     * state and target after this command are in valid condition
+     * @param resultCondition - Function, predicate that
+     * <b>trasformTarget</b> return valid value
      */
-    fun <R> addCommand(transformState: (S) -> (S), transformTarget: Function<R>,
+    fun <R> addCommand(transformState: Function<S>, transformTarget: Function<R>,
                        precondition: (S)->(Boolean) = {s: S -> true},
                        postcondition: (S, T)->(Boolean) = {s: S, t: T -> true},
                        resultCondition: (S, R)->(Boolean) = {s: S, r: R -> true},

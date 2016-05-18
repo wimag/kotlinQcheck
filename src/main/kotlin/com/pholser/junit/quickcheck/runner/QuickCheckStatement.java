@@ -1,12 +1,12 @@
 package com.pholser.junit.quickcheck.runner;
 
-import com.pholser.junit.quickcheck.internal.PropertyParameterContext;
-import context.Context;
 import com.pholser.junit.quickcheck.internal.GeometricDistribution;
+import com.pholser.junit.quickcheck.internal.PropertyParameterContext;
 import com.pholser.junit.quickcheck.internal.ShrinkControl;
 import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
 import com.pholser.junit.quickcheck.internal.generator.PropertyParameterGenerationContext;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
+import context.Context;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.TestClass;
 import org.slf4j.Logger;

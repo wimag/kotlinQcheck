@@ -25,15 +25,6 @@
 
 package com.pholser.junit.quickcheck.runner;
 
-import java.lang.reflect.Executable;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.internal.GeometricDistribution;
 import com.pholser.junit.quickcheck.internal.ParameterTypeContext;
@@ -50,9 +41,13 @@ import org.junit.runners.model.TestClass;
 import org.slf4j.Logger;
 import ru.vyarus.java.generics.resolver.GenericsResolver;
 
-import static java.util.stream.Collectors.*;
+import java.lang.reflect.Executable;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
+import java.util.*;
 
-import static org.junit.Assert.*;
+import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.fail;
 
 class PropertyStatement extends Statement {
     protected final FrameworkMethod method;

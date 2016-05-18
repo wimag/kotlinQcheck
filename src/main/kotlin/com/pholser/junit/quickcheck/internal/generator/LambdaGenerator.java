@@ -29,7 +29,7 @@ import com.pholser.junit.quickcheck.generator.GenerationStatus;
 import com.pholser.junit.quickcheck.generator.Generator;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 
-import static com.pholser.junit.quickcheck.generator.Lambdas.*;
+import static com.pholser.junit.quickcheck.generator.Lambdas.makeLambda;
 
 public class LambdaGenerator<T, U> extends Generator<T> {
     private final Class<T> lambdaType;

@@ -2,10 +2,7 @@ import annotations.QGen
 import annotations.QTest
 import annotations.QtestRunner
 import com.pholser.junit.quickcheck.From
-import com.pholser.junit.quickcheck.generator.InRange
-import generators.QGenerator
 import hooks.checkAll
-import statefull.StateMachine
 
 fun isShort(@From(name="generateTwo")x: Int) = x < 1500
 

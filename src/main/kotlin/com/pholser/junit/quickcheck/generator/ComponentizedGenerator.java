@@ -25,16 +25,15 @@
 
 package com.pholser.junit.quickcheck.generator;
 
+import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
+import org.javaruntype.type.TypeParameter;
+
 import java.lang.reflect.AnnotatedType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
-import org.javaruntype.type.TypeParameter;
-
-import static java.util.Collections.*;
-
-import static com.pholser.junit.quickcheck.internal.Reflection.*;
+import static com.pholser.junit.quickcheck.internal.Reflection.annotatedComponentTypes;
+import static java.util.Collections.unmodifiableList;
 
 /**
  * Produces values for property parameters of types that have parameterizations

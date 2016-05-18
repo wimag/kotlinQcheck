@@ -1,14 +1,14 @@
 package annotations;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import Runners.QuickCheckBuilder;
 import Runners.TestStorage;
 import generators.QGenerator;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by Mark on 07.04.2016.

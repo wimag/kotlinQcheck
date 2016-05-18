@@ -25,11 +25,11 @@
 
 package com.pholser.junit.quickcheck.internal;
 
-import java.lang.reflect.AnnotatedElement;
-
 import com.pholser.junit.quickcheck.When;
 
-import static com.pholser.junit.quickcheck.internal.Reflection.*;
+import java.lang.reflect.AnnotatedElement;
+
+import static com.pholser.junit.quickcheck.internal.Reflection.defaultValueOf;
 
 public class PropertyParameterContext {
     private final ParameterTypeContext typeContext;

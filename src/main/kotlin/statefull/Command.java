@@ -3,7 +3,6 @@ package statefull;
 
 import Utils.FunctionHelper;
 import kotlin.Function;
-import kotlin.Unit;
 
 /**
  * Created by Mark on 17.05.2016.

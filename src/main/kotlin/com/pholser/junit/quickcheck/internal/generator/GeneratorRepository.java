@@ -25,18 +25,6 @@
 
 package com.pholser.junit.quickcheck.internal.generator;
 
-import java.io.InvalidClassException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.pholser.junit.quickcheck.generator.Generator;
 import com.pholser.junit.quickcheck.internal.ParameterTypeContext;
 import com.pholser.junit.quickcheck.internal.Weighted;
@@ -45,10 +33,15 @@ import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 import org.javaruntype.type.TypeParameter;
 import org.javaruntype.type.Types;
 
-import static java.util.Collections.*;
+import java.io.InvalidClassException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import static com.pholser.junit.quickcheck.internal.Items.*;
-import static com.pholser.junit.quickcheck.internal.Reflection.*;
+import static com.pholser.junit.quickcheck.internal.Items.choose;
+import static com.pholser.junit.quickcheck.internal.Reflection.singleAbstractMethodOf;
+import static java.util.Collections.emptyMap;
 
 public class GeneratorRepository {
     private final SourceOfRandomness random;

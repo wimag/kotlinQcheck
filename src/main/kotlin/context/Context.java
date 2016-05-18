@@ -1,12 +1,8 @@
 package context;
 
-import com.pholser.junit.quickcheck.generator.Generator;
 import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
-import kotlin.jvm.internal.FunctionReference;
-import kotlin.jvm.internal.Lambda;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 
 /**

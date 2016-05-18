@@ -25,10 +25,6 @@
 
 package com.pholser.junit.quickcheck.runner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.internal.GeometricDistribution;
 import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
@@ -41,6 +37,10 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * <p>JUnit test runner for junit-quickcheck property-based tests.</p>

@@ -25,14 +25,14 @@
 
 package com.pholser.junit.quickcheck;
 
+import com.pholser.junit.quickcheck.generator.Generator;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.*;
-
-import com.pholser.junit.quickcheck.generator.Generator;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * <p>Mark a parameter of a {@link Property} method with this annotation to

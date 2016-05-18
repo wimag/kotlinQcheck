@@ -25,14 +25,15 @@
 
 package com.pholser.junit.quickcheck.internal;
 
+import com.pholser.junit.quickcheck.generator.Shrink;
+import com.pholser.junit.quickcheck.random.SourceOfRandomness;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.pholser.junit.quickcheck.generator.Shrink;
-import com.pholser.junit.quickcheck.random.SourceOfRandomness;
-
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 
 public final class Lists {
     private Lists() {

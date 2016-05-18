@@ -1,7 +1,6 @@
 package statefull;
 
 import Utils.FunctionHelper;
-import com.pholser.junit.quickcheck.generator.Size;
 
 import java.lang.reflect.Parameter;
 import java.util.List;

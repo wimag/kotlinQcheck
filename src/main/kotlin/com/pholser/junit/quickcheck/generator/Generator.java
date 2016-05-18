@@ -25,13 +25,6 @@
 
 package com.pholser.junit.quickcheck.generator;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.function.Consumer;
-
 import com.pholser.junit.quickcheck.internal.ParameterTypeContext;
 import com.pholser.junit.quickcheck.internal.ReflectionException;
 import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
@@ -40,10 +33,16 @@ import org.javaruntype.type.TypeParameter;
 import org.javaruntype.type.Types;
 import org.javaruntype.type.WildcardTypeParameter;
 
-import static java.util.Collections.*;
-import static java.util.stream.Collectors.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.function.Consumer;
 
 import static com.pholser.junit.quickcheck.internal.Reflection.*;
+import static java.util.Collections.*;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Produces values for property parameters.

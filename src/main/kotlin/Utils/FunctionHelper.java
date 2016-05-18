@@ -3,13 +3,10 @@ package Utils;
 import kotlin.Function;
 import kotlin.jvm.internal.Lambda;
 import kotlin.reflect.KFunction;
-import kotlin.reflect.jvm.internal.KFunctionFromReferenceImpl;
-import kotlin.reflect.jvm.internal.KFunctionImpl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
 
 /**
  * Created by Mark on 17.05.2016.

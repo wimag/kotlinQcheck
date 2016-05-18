@@ -25,32 +25,19 @@
 
 package com.pholser.junit.quickcheck.internal;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedArrayType;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.AnnotatedParameterizedType;
-import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.AnnotatedWildcardType;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.javaruntype.type.Type;
 
-import static java.lang.reflect.Modifier.*;
-import static java.security.AccessController.*;
-import static java.util.Arrays.*;
-import static java.util.Collections.*;
-import static java.util.stream.Collectors.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.*;
+import java.security.PrivilegedAction;
+import java.util.*;
+
+import static java.lang.reflect.Modifier.isAbstract;
+import static java.security.AccessController.doPrivileged;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toList;
 
 public final class Reflection {
     private static final Map<Class<?>, Class<?>> PRIMITIVES = new HashMap<>(16);

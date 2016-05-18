@@ -30,7 +30,7 @@ import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import static java.math.RoundingMode.*;
+import static java.math.RoundingMode.HALF_UP;
 
 public final class Sequences {
     private Sequences() {

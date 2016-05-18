@@ -5,9 +5,7 @@ import com.pholser.junit.quickcheck.generator.Generator;
 import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
 import generators.CommandSequenceGenerator;
 import statefull.StateExecutor;
-import statefull.StateMachine;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 

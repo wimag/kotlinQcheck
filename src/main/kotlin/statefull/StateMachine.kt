@@ -1,8 +1,7 @@
 package statefull
 
-import com.pholser.junit.quickcheck.generator.Generator
 import hooks.runState
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by Mark on 16.05.2016.

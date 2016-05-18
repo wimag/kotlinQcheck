@@ -25,12 +25,12 @@
 
 package com.pholser.junit.quickcheck.runner;
 
-import java.util.List;
-import java.util.Stack;
-
 import com.pholser.junit.quickcheck.internal.generator.PropertyParameterGenerationContext;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.TestClass;
+
+import java.util.List;
+import java.util.Stack;
 
 class Shrinker {
     private final FrameworkMethod method;

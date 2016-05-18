@@ -25,14 +25,14 @@
 
 package com.pholser.junit.quickcheck;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import com.pholser.junit.quickcheck.internal.RandomValueSupplier;
 import org.junit.contrib.theories.ParametersSuppliedBy;
 
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Mark a parameter of a {@link org.junit.contrib.theories.Theory} method

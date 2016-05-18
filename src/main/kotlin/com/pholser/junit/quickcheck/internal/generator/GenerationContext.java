@@ -32,7 +32,7 @@ import com.pholser.junit.quickcheck.internal.ParameterContext;
 import com.pholser.junit.quickcheck.internal.constraint.ConstraintEvaluator;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 
-import static java.lang.Math.*;
+import static java.lang.Math.min;
 
 @Deprecated
 public class GenerationContext implements GenerationStatus {

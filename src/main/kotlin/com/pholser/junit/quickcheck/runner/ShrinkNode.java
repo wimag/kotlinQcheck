@@ -25,16 +25,16 @@
 
 package com.pholser.junit.quickcheck.runner;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.pholser.junit.quickcheck.internal.generator.PropertyParameterGenerationContext;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.TestClass;
 
-import static java.util.Arrays.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 final class ShrinkNode {
     private final FrameworkMethod method;

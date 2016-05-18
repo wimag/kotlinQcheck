@@ -25,9 +25,6 @@
 
 package com.pholser.junit.quickcheck.runner;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import org.junit.AssumptionViolatedException;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -35,7 +32,10 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 import org.junit.runners.model.TestClass;
 
-import static java.util.Arrays.*;
+import java.util.List;
+import java.util.function.Consumer;
+
+import static java.util.Arrays.asList;
 
 class PropertyVerifier extends BlockJUnit4ClassRunner {
     private final FrameworkMethod method;

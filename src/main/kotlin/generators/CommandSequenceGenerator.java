@@ -5,7 +5,7 @@ import com.pholser.junit.quickcheck.generator.Generator;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 import statefull.CommandSequence;
 
-import java.lang.reflect.AnnotatedType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,9 +17,10 @@ public class CommandSequenceGenerator extends Generator<CommandSequence> {
     private int sampleSize = 100;
     private int numberOfCommands = 100;
 
-    public CommandSequenceGenerator(){
+    public CommandSequenceGenerator() {
         this(CommandSequence.class);
     }
+
     protected CommandSequenceGenerator(Class<CommandSequence> type) {
         super(type);
     }
@@ -31,13 +32,13 @@ public class CommandSequenceGenerator extends Generator<CommandSequence> {
     @Override
     public CommandSequence generate(SourceOfRandomness random, GenerationStatus status) {
         int commands[] = new int[sampleSize];
-        for(int i = 0; i < sampleSize; i++){
+        for (int i = 0; i < sampleSize; i++) {
             commands[i] = random.nextInt(numberOfCommands);
         }
-        return new CommandSequence(commands);
+        return new CommandSequence(commands, random);
     }
 
-    public void configure(int sampleSize, int numberOfCommands){
+    public void configure(int sampleSize, int numberOfCommands) {
         this.sampleSize = sampleSize;
         this.numberOfCommands = numberOfCommands;
     }
@@ -52,5 +53,31 @@ public class CommandSequenceGenerator extends Generator<CommandSequence> {
     @Override
     public String getName() {
         return "CommandSequenceGenerator";
+    }
+
+    @Override
+    public List<CommandSequence> doShrink(SourceOfRandomness random, CommandSequence larger) {
+        int[] oldCommands = larger.getCommands();
+        int numberOfShrinks = 5;
+        ArrayList<CommandSequence> result = new ArrayList<>();
+        for (int i = 0; i < numberOfShrinks; i++) {
+            result.add(new CommandSequence(getSubsequence(oldCommands, random), larger.getRandom()));
+        }
+        return result;
+    }
+
+    private int[] getSubsequence(int commands[], SourceOfRandomness random) {
+        int size = random.nextInt(commands.length/2, commands.length);
+        int res[] = new int[size];
+        int pos = size-1;
+        for (int i = commands.length - 1; (pos >= 0) && (i > pos); i--) {
+            if (random.nextBoolean()) {
+                res[pos] = commands[i];
+                pos--;
+            }
+        }
+        System.arraycopy(commands, 0, res, 0, pos);
+        return res;
+
     }
 }

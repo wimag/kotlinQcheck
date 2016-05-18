@@ -25,14 +25,14 @@
 
 package com.pholser.junit.quickcheck.generator;
 
+import com.pholser.junit.quickcheck.internal.ParameterTypeContext;
+import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
+import com.pholser.junit.quickcheck.random.SourceOfRandomness;
+
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.pholser.junit.quickcheck.internal.ParameterTypeContext;
-import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
-import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 
 import static com.pholser.junit.quickcheck.internal.Reflection.*;
 

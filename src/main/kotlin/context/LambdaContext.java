@@ -1,12 +1,10 @@
 package context;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
 import Utils.FunctionHelper;
 import kotlin.Function;
-import kotlin.jvm.internal.FunctionReference;
 import kotlin.jvm.internal.Lambda;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by Mark on 20.04.2016.

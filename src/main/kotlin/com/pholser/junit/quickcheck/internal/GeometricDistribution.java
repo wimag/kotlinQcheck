@@ -27,7 +27,8 @@ package com.pholser.junit.quickcheck.internal;
 
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 
-import static java.lang.Math.*;
+import static java.lang.Math.ceil;
+import static java.lang.Math.log;
 
 public class GeometricDistribution {
     public int sampleWithMean(double mean, SourceOfRandomness random) {

@@ -25,6 +25,12 @@
 
 package com.pholser.junit.quickcheck.internal.generator;
 
+import com.pholser.junit.quickcheck.generator.GenerationStatus;
+import com.pholser.junit.quickcheck.generator.Generator;
+import com.pholser.junit.quickcheck.generator.Shrink;
+import com.pholser.junit.quickcheck.generator.Size;
+import com.pholser.junit.quickcheck.random.SourceOfRandomness;
+
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -32,19 +38,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.pholser.junit.quickcheck.generator.GenerationStatus;
-import com.pholser.junit.quickcheck.generator.Generator;
-import com.pholser.junit.quickcheck.generator.Shrink;
-import com.pholser.junit.quickcheck.generator.Size;
-import com.pholser.junit.quickcheck.random.SourceOfRandomness;
-
-import static java.util.stream.StreamSupport.*;
-
-import static com.pholser.junit.quickcheck.internal.Lists.*;
-import static com.pholser.junit.quickcheck.internal.Ranges.*;
-import static com.pholser.junit.quickcheck.internal.Ranges.Type.*;
-import static com.pholser.junit.quickcheck.internal.Reflection.*;
-import static com.pholser.junit.quickcheck.internal.Sequences.*;
+import static com.pholser.junit.quickcheck.internal.Lists.removeFrom;
+import static com.pholser.junit.quickcheck.internal.Lists.shrinksOfOneItem;
+import static com.pholser.junit.quickcheck.internal.Ranges.Type.INTEGRAL;
+import static com.pholser.junit.quickcheck.internal.Ranges.checkRange;
+import static com.pholser.junit.quickcheck.internal.Reflection.annotatedComponentTypes;
+import static com.pholser.junit.quickcheck.internal.Sequences.halving;
+import static java.util.stream.StreamSupport.stream;
 
 public class ArrayGenerator extends Generator<Object> {
     private final Class<?> componentType;

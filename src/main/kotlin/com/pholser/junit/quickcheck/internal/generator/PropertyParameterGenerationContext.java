@@ -25,9 +25,6 @@
 
 package com.pholser.junit.quickcheck.internal.generator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.pholser.junit.quickcheck.generator.GenerationStatus;
 import com.pholser.junit.quickcheck.generator.Generator;
 import com.pholser.junit.quickcheck.internal.GeometricDistribution;
@@ -36,8 +33,11 @@ import com.pholser.junit.quickcheck.internal.constraint.ConstraintEvaluator;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.min;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
 
 public class PropertyParameterGenerationContext implements GenerationStatus {
     private final PropertyParameterContext parameter;

@@ -25,6 +25,8 @@
 
 package com.pholser.junit.quickcheck.generator;
 
+import com.pholser.junit.quickcheck.random.SourceOfRandomness;
+
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
@@ -32,12 +34,10 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.pholser.junit.quickcheck.random.SourceOfRandomness;
-
-import static java.lang.System.*;
-import static java.lang.reflect.Proxy.*;
-
-import static com.pholser.junit.quickcheck.internal.Reflection.*;
+import static com.pholser.junit.quickcheck.internal.Reflection.findDeclaredConstructor;
+import static com.pholser.junit.quickcheck.internal.Reflection.singleAbstractMethodOf;
+import static java.lang.System.identityHashCode;
+import static java.lang.reflect.Proxy.newProxyInstance;
 
 /**
  * Helper class for creating instances of "functional interfaces".

@@ -4,9 +4,11 @@ import com.pholser.junit.quickcheck.generator.Generator;
 import context.Context;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import com.pholser.junit.quickcheck.runner.QuickCheckStatement;
+import generators.CommandSequenceGenerator;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
+import statefull.CommandSequence;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class QuickCheckRunner extends JUnitQuickcheck {
 
     private List<QTestEntry> qtests = new ArrayList<>();
+
     /**
      * Invoked reflectively by JUnit.
      *
@@ -27,30 +30,23 @@ public class QuickCheckRunner extends JUnitQuickcheck {
      */
     public QuickCheckRunner(Class<?> clazz) throws InitializationError {
         super(clazz);
-        Iterable<Generator> gens = getGenerators(clazz);
+        Iterable<Generator> gens = getGenerators();
+        getRepo().register(new CommandSequenceGenerator());
         if (gens != null) {
-            for(Generator<?> gen: gens){
+            for (Generator<?> gen : gens) {
                 getRepo().register(gen);
             }
         }
-        if(getTests(clazz) != null){
-            for(Context context : getTests(clazz)){
-                qtests.add(new QTestEntry(new FrameworkMethod(context.getVerifyMethod()), context));
-            }
-        }
+        qtests.addAll(getTests().stream().map(context -> new QTestEntry(
+                new FrameworkMethod(context.getVerifyMethod()), context)).collect(Collectors.toList()));
 
 
-    }
-
-    @Override
-    protected void validateTestMethods(List<Throwable> errors) {
-        super.validateTestMethods(errors);
     }
 
     @Override
     protected List<FrameworkMethod> computeTestMethods() {
-         List<FrameworkMethod> tests = super.computeTestMethods();
-        if(qtests != null){
+        List<FrameworkMethod> tests = super.computeTestMethods();
+        if (qtests != null) {
             tests.addAll(qtests.stream().map(QTestEntry::getMethod).collect(Collectors.toList()));
         }
         return tests;
@@ -59,38 +55,30 @@ public class QuickCheckRunner extends JUnitQuickcheck {
 
     @Override
     public Statement methodBlock(FrameworkMethod method) {
-        for(QTestEntry entry: qtests){
-            if(entry.getMethod().equals(method)){
+        for (QTestEntry entry : qtests) {
+            if (entry.getMethod().equals(method)) {
                 return new QuickCheckStatement(method, getTestClass(), getRepo(), getDistro(), getSeedLog(), entry.context);
+                //TODO - here we can create methods called on another objects
             }
         }
         return super.methodBlock(method);
     }
 
-
-    private List<Context> getTests(Class<?> clazz){
-        try {
-            Field tests = clazz.getDeclaredField("tests");
-            tests.setAccessible(true);
-            return (List<Context>)tests.get(null);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return null;
+    @Override
+    protected void validateTestMethods(List<Throwable> errors) {
+        super.validateTestMethods(errors);
     }
 
-    private List<Generator> getGenerators(Class<?> clazz){
-        try {
-            Field tests = clazz.getDeclaredField("gens");
-            tests.setAccessible(true);
-            return (List<Generator>)tests.get(null);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return null;
+
+    private List<Context> getTests() {
+        return TestStorage.getInstance().getTests();
     }
 
-    private static class QTestEntry{
+    private List<Generator> getGenerators() {
+        return TestStorage.getInstance().getGenerators();
+    }
+
+    private static class QTestEntry {
         private final FrameworkMethod method;
         private final Context context;
 

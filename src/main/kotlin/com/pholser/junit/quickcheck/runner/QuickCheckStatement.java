@@ -32,18 +32,17 @@ public class QuickCheckStatement extends PropertyStatement {
                                Context context) {
         super(method, testClass, repo, distro, seedLog);
         this.context = context;
+        this.context.initializeRepo(repo);
     }
-
-    //TODO - Override verify, so it adds params.
 
 
     @Override
     protected void verifyProperty(List<PropertyParameterGenerationContext> params, ShrinkControl shrinkControl) throws Throwable {
-        Object[] optArgs = new Object[]{context};
+        Object[] optArgs = context.getArguments();
         Object[] testArgs = argumentsFor(params);
-        Object[] args = new Object[optArgs.length + testArgs.length];
+        Object[] args = new Object[optArgs.length + 1];
         System.arraycopy(optArgs, 0, args, 0, optArgs.length);
-        System.arraycopy(testArgs, 0, args, optArgs.length, testArgs.length);
+        args[args.length-1] = testArgs;
         property(params, args, shrinkControl).verify();
     }
 
@@ -74,7 +73,7 @@ public class QuickCheckStatement extends PropertyStatement {
                 .genericsMap();
 
 
-        List<PropertyParameterContext> contexts = Arrays.stream(context.getTestMethod().getParameters())
+        List<PropertyParameterContext> contexts = Arrays.stream(context.getParameters())
                 .map(p -> parameterContextFor(p, trials, typeVariables)).collect(Collectors.toList());
 
         contexts.stream().forEach(p -> p.typeContext().resolve(repo));

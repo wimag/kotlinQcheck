@@ -9,24 +9,27 @@ import java.lang.reflect.Method;
  */
 public class MethodNameHelper {
     @Nullable
-    public static Method getMethod(String name, Class<?>... params) {
+    public static Method getMethod(String name){
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         //caller always is third on stack (getStachTrace() -> run() -> caller
         if (stackTraceElements.length < 3){
             return null;
         }
         String fileName = stackTraceElements[2].getClassName();
-
+        Class<?> act = null;
         try {
-            Class<?> act = Class.forName(fileName);
-            //TODO - call other, then string
-            for(Method method: act.getDeclaredMethods()){
-                if(method.getName().equals(name)){
-                    return method;
-                }
-            }
+            act = Class.forName(fileName);
         } catch (ClassNotFoundException e) {
-            System.out.println("Can not get caller class");
+            System.err.println("cant reflect method " + name);
+        }
+        return getMethod(name, act);
+    }
+
+    public static Method getMethod(String name, Class target){
+        for(Method method: target.getDeclaredMethods()){
+            if(method.getName().equals(name)){
+                return method;
+            }
         }
         return null;
     }

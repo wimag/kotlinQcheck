@@ -15,40 +15,6 @@ import java.util.ArrayList;
 
 @RunWith(QuickCheckRunner.class)
 public class QuickCheckBuilder {
-
-    private static final ArrayList<Context> tests = new ArrayList<>();
-
-    private static final ArrayList<Generator> gens = new ArrayList<>();
-
-    public static void addGen(Generator generator){
-        gens.add(generator);
-    }
-
-    public static void addTest(Context context){
-        tests.add(context);
-    }
-
-    private static class Crypto2 {
-        byte[] encrypt(byte[] plaintext){
-
-            return plaintext;
-        }
-
-        byte[] decrypt(byte[] ciphertext){
-            return ciphertext;
-        }
-    }
-
-
     @Property
-    public void decryptReversesEncrypt(String plaintext) {
-
-        Crypto2 crypto = new Crypto2();
-        byte[] ciphertext = crypto.encrypt(plaintext.getBytes());
-        Assert.assertEquals(
-                plaintext,
-                new String(crypto.decrypt(ciphertext)));
-    }
-
-
+    public void proxy(String ignored) {}
 }

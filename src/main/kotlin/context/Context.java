@@ -1,10 +1,13 @@
 package context;
 
+import com.pholser.junit.quickcheck.generator.Generator;
+import com.pholser.junit.quickcheck.internal.generator.GeneratorRepository;
 import kotlin.jvm.internal.FunctionReference;
 import kotlin.jvm.internal.Lambda;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 
 /**
  * Created by Mark on 06.05.2016.
@@ -28,7 +31,9 @@ public abstract class Context<T> {
 
     public abstract Method getVerifyMethod();
 
-    public abstract Object[] getParams();
+    public Object[] getArguments(){
+        return new Object[]{this};
+    }
 
     public abstract Method getTestMethod();
 
@@ -51,4 +56,13 @@ public abstract class Context<T> {
     public int maxShrinkTime(){
         return maxShrinkTime;
     }
+
+    public Parameter[] getParameters(){
+        return getTestMethod().getParameters();
+    }
+
+    public void initializeRepo(GeneratorRepository repo){}
+
+
+
 }

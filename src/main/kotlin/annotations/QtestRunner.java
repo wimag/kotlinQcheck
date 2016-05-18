@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import Runners.QuickCheckBuilder;
+import Runners.TestStorage;
 import generators.QGenerator;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -41,7 +42,7 @@ public class QtestRunner {
                 if(name.equals("N/A")){
                     name = method.getName();
                 }
-                QuickCheckBuilder.addGen(new QGenerator(method, name));
+                TestStorage.getInstance().addGen(new QGenerator(method, name));
             }
         }
     }

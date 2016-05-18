@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
  * Created by Mark on 07.05.2016.
  */
 public class QGenerator extends Generator{
+    //TODO - pass generator through lambdas
     private final Method method;
     private final String name;
     public QGenerator(Method method, String name) {

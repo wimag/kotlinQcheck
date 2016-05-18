@@ -29,10 +29,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 import com.pholser.junit.quickcheck.internal.ParameterTypeContext;
@@ -54,7 +51,7 @@ import static com.pholser.junit.quickcheck.internal.Reflection.*;
  * @param <T> type of property parameter to apply this generator's values to
  */
 public abstract class Generator<T> implements Shrink<T> {
-    private final List<Class<T>> types = new ArrayList<>();
+    private final Set<Class<T>> types = new HashSet<>();
 
     private GeneratorRepository repo;
 
@@ -101,7 +98,7 @@ public abstract class Generator<T> implements Shrink<T> {
      * is applicable to
      */
     public List<Class<T>> types() {
-        return unmodifiableList(types);
+        return unmodifiableList(new ArrayList<>(types));
     }
 
     /**

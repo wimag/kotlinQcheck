@@ -9,29 +9,26 @@ public class FunctionContext<T> extends Context {
     //TODO specify T constraints
     private final T testFunction;
     private final Method verifyMethod;
-    private final Object[] params;
 
     public FunctionContext(Method verifyMethod, T testMethod, int trials,
                            boolean shrink, int shrinks, int maxShrinkDeptth,
-                           int maxShrinkTime, Object... params) {
+                           int maxShrinkTime) {
         super(trials, shrinks, maxShrinkDeptth, shrink, maxShrinkTime);
         this.verifyMethod = verifyMethod;
         this.testFunction = testMethod;
-        this.params = params;
     }
 
+    @Override
     public T getTestFunction() {
         return testFunction;
     }
 
+    @Override
     public Method getVerifyMethod() {
         return verifyMethod;
     }
 
-    public Object[] getParams() {
-        return params;
-    }
-
+    @Override
     public Method getTestMethod() {
         return (Method)testFunction;
     }
